@@ -1,19 +1,21 @@
 to startup
-print "|Welcome to the heat|
+print "|Heat Diffusion Experiment|
 load "logo/compiler
 load "logo/decompiler
 load "logo/uartcomms
 load "logo/screen
 load "logo/smplot
 load "logo/onewire-packets
+load "nodes
+load "heat
+
 make "onewire true
 sethandleline true
-print "|loading heat.logo|
-load "heat
-if not name? "inited [make "inited true compiler-startup start-comms]
-make "srcpath word dirnamefrompath first files ". "/
-make "srcfile "heat.prj
-compile
+
+;if not name? "inited [make "inited true compiler-startup start-comms]
+;make "srcpath word dirnamefrompath first files ". "/
+;make "srcfile "heat.prj
+;compile
 end
 
 define byte0 [n][output logand :n $ff]

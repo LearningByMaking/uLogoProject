@@ -143,3 +143,209 @@ Welcome to Logo!
   loading heat.logo
   Compiling...
   1307 bytes
+Welcome to Logo!
+  Welcome to the heat
+  loading heat.logo
+  Compiling...
+  1307 bytes
+.rr
+  Heat Diffusion Experiment
+  Compiling...
+  1307 bytes
+initNodes
+  initNodes undefined
+Welcome to Logo!
+  Heat Diffusion Experiment
+  Compiling...
+  1307 bytes
+.initNodes
+.rr
+  Heat Diffusion Experiment
+  Compiling...
+  1307 bytes
+.initNodes
+  Specifying Application Nodes
+.rr
+  Heat Diffusion Experiment
+  Compiling...
+  1307 bytes
+.initNodes
+  Specifying Application Nodes
+.getNode 1
+  I don't know how to reapeat in getNode
+.rr
+  Heat Diffusion Experiment
+.initNodes
+  Specifying Application Nodes
+.getNode 1
+  I don't know how to nodes in getNode
+.rr
+  Heat Diffusion Experiment
+.getNode
+  getNode needs more inputs
+.getNode 1
+  I don't know how to nodes in getNode
+.rr
+  Heat Diffusion Experiment
+.getNode 1
+  I don't know how to nodes in getNode
+.rr
+  Heat Diffusion Experiment
+.initNodes
+.getNode 1
+  I don't know how to nodes in getNode
+Welcome to Logo!
+  Heat Diffusion Experiment
+.initNodes
+
+   undefined
+Welcome to Logo!
+  Heat Diffusion Experiment
+.initNodes
+.getNode 1
+  I don't know how to nodes in getNode
+.rr
+  Heat Diffusion Experiment
+.initNodes
+.getNode 1
+  1 node1.prj 2 node2.prj
+.rr
+  Heat Diffusion Experiment
+.initNodes
+.getNode 1
+  4
+.rr
+  Heat Diffusion Experiment
+.initNodes
+.getNode 1
+  1
+  1
+  1
+  1
+.rr
+  Heat Diffusion Experiment
+.getNode 1
+  1 node1.prj 2 node2.prj
+  nth needs more inputs in getNode
+.rr
+  Heat Diffusion Experiment
+.getNode 1
+  node has no value in getNode
+.rr
+  Heat Diffusion Experiment
+.getNode 1
+  nth doesn't like 1 node1.prj 2 node2.prj as input in getNode
+.rr
+  Heat Diffusion Experiment
+.getNode 1
+  node1.prj
+  node1.prj
+  node1.prj
+  node1.prj
+.rr
+  Heat Diffusion Experiment
+.getNode 1
+  I don't know how to i in getNode
+.rr
+  Heat Diffusion Experiment
+.getNode 1
+  I don't know how to i in getNode
+.rr
+  Heat Diffusion Experiment
+.getNode 1
+  I don't know how to i in getNode
+Welcome to Logo!
+  Heat Diffusion Experiment
+.initNodes
+.getNode 1
+  1
+  1
+  1
+  1
+.rr
+  Heat Diffusion Experiment
+.getNode 1
+  1
+  i+1 has no value in getNode
+.rr
+  Heat Diffusion Experiment
+.getNode 1
+  1
+  i+1 has no value in getNode
+.rr
+  Heat Diffusion Experiment
+.getNode 1
+  1
+  node1.prj
+  2
+  node2.prj
+.rr
+  Heat Diffusion Experiment
+.getNode 1
+  if doesn't like f as input in getNode
+.rr
+  Heat Diffusion Experiment
+.getNode 1
+  I don't know how to current in getNode
+.rr
+  Heat Diffusion Experiment
+.getNode 1
+  found it!
+.rr
+  Heat Diffusion Experiment
+.getNode 1
+  node1.prj
+  nth doesn't like 4 as input in getNode
+.rr
+  Heat Diffusion Experiment
+.getNode 1
+  1
+  nth doesn't like 4 as input in getNode
+.rr
+  Heat Diffusion Experiment
+.getNode 1
+  1
+  nth doesn't like 4 as input in getNode
+.rr
+  Heat Diffusion Experiment
+.rr
+  Heat Diffusion Experiment
+.getNode 1
+  I don't know how to /2 in getNode
+.rr
+  Heat Diffusion Experiment
+.getNode 1
+  1
+.rr
+  Heat Diffusion Experiment
+.getNode 1
+  node1.prj
+.getNode 2
+  node2.prj
+.rr
+  Heat Diffusion Experiment
+.initNodes
+.getNode 19
+  node1.prj
+.rr
+  Heat Diffusion Experiment
+.initNodes
+.getProjectByNode 19
+  I don't know how to ouput in getProjectByNode
+.rr
+  Heat Diffusion Experiment
+.getProjectByNode 19
+  You don't say what to do with node1.prj
+.print getProjectByNode 19
+  node1.prj
+.rr
+  Heat Diffusion Experiment
+.correlateProjectsWithNodes
+.getProjectByNode 2
+.print getProjectByNode 19
+  node1.prj
+.rr
+  Heat Diffusion Experiment
+.assignProjectsToNodes
+.print projectForNode 19
+  node1.prj

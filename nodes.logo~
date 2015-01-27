@@ -1,0 +1,14 @@
+to correlateProjectsWithNodes
+make "nodes [19 node1.prj 20 node2.prj]     
+end
+
+to projectForNode :n
+make "i 0
+repeat (count :nodes) / 2	
+[
+	make "current nth :i :nodes
+	if (:current = :n) [output nth :i + 1 :nodes] 
+	make "i :i + 2
+]
+end
+
