@@ -1,0 +1,480 @@
+to init
+;make a calibration table with 2 points for temperaure sensor
+;later extend table to multiple points for non-linear sensor
+; make "temp0_cal [911 22.0 3000 50.0]     ; pairs (adc,temp)
+make "temp0_cal [500 22.0 1000 50.0]     ; pairs (adc,temp)
+make "temp1_cal [500 22.0 1000 50.0]     ; pairs (adc,temp)
+make "temp2_cal [500 22.0 1000 50.0]     ; pairs (adc,temp)
+make "temp3_cal [500 22.0 1000 50.0]     ; pairs (adc,temp)
+
+; make "temp0_cal [911 22.0 1500 50.0]     ; pairs (adc,temp)
+; make "temp1_cal [911 22.0 1500 50.0]     ; pairs (adc,temp)
+; make "temp2_cal [911 22.0 1500 50.0]     ; pairs (adc,temp)
+; make "temp3_cal [911 22.0 1500 50.0]     ; pairs (adc,temp)
+
+make "temp1_cal :temp0_cal
+make "temp2_cal :temp0_cal
+make "temp3_cal :temp0_cal
+
+;make "temp0_cal [0 -50.0 2110 125.0]     ; pairs (adc,temp)
+;make "temp1_cal [0 -50.0 2110 125.0]     ; pairs (adc,temp)
+;make "temp2_cal [0 -50.0 2110 125.0]     ; pairs (adc,temp)
+;make "temp3_cal [0 -50.0 2110 125.0]     ; pairs (adc,temp)
+
+make "slope-list []
+setup-screen
+init-data
+
+make "simulate false
+make "sim-temp [20 20 20 20 20 20 20 20 20 20] 
+make "alpha 0.03         ; adjust constant to match simulation to real data
+make "first-time true
+
+make "node  19
+make "node2 20
+; print word "|Talking to | :node
+end
+
+
+to noise-exp-5
+  noise-exp
+  blindexec "|cp screen.png noise1.png|
+  noise-exp
+  blindexec "|cp screen.png noise2.png|
+  noise-exp
+  blindexec "|cp screen.png noise3.png|
+  noise-exp
+  blindexec "|cp screen.png noise4.png|
+  noise-exp
+  blindexec "|cp screen.png noise5.png|
+end
+
+to noise-exp
+
+init                     ;jlogo initialization
+talkto :node
+stopvm wait 10           ;stop ulogo
+
+print "|Noise Experiment|
+;f[init]             ;ulogo initialization
+
+make "start-time now       ; gets the unit time at the begining of the experiment
+make "time-step  0        ; time step count
+
+ onstart
+ make "avg-list []
+ make "val-list []
+ repeat 27 [ 
+            make "ycol-data []
+            repeat 9 [
+                     ifelse :simulate
+                       [make "value  35.0 + gauss
+                       ]
+                       [make "heat-list []
+                        ul-run [read_temp]
+                        make "packet-bytes rl $1fc0 30
+                        process-packet
+                        make "temp3     wnth 8 :packet-bytes
+                        make "value 10 * (calibrate :temp3 :temp3_cal)
+                       ]
+                        make "ycol-data se :ycol-data :value
+                      ]
+             make "val-list se :val-list :ycol-data
+             make "avg-list se :avg-list  average 	
+          ]
+    make "ycol-data :val-list
+    analyze
+    make "ycol-data :avg-list
+    analyze
+    plot-hist
+    display  
+end
+
+to gauss
+let [sum 0]
+ repeat 12 [ make "sum :sum + (random 1000) ]
+ make "sum (:sum / 1000) - 6.0
+ output :sum
+end
+
+to heat-exp
+
+talkto :node2
+init
+stopvm wait 10
+
+talkto :node
+init                  ;jlogo initialization
+stopvm wait 10     
+
+print "|Heat Experiment|
+;ul-run[init]             ;ulogo initialization
+talkto :node2
+;ul-run[init]
+talkto :node
+
+make "heat-list []
+make "real-list []
+make "sim-list  []
+
+make "start-time now       ; gets the unit time at the begining of the experiment
+make "time-step  0        ; time step count
+loop [
+     cycle-day
+     cycle-night
+     ]
+end
+
+to wait_utime :n    ; wait :n sec based on utime
+let [t0 :start-time + 1000 * (:time-step * :n)]
+make "time-step :time-step + 1
+loop [
+     make "delta (now - :t0) / 1000
+     if (:delta > :n) [stop]
+     ]
+end
+
+; takes data every 10 seconds for 5 minutes (or 300 sec)
+to cycle-day
+ talkto :node2
+ ongo
+ wait 10
+ talkto :node
+ ongo
+ wait 10
+ repeat 15 [
+           ul-run [read_temp]
+;           ul-blind-run [read_temp init day]
+           see-packet
+           wait_utime 20          ; wait ~20 sec
+           ]	
+end
+
+to cycle-night
+ talkto :node2
+ onstart
+ wait 10
+ talkto :node
+ onstart
+ wait 10
+ repeat 15 [
+           ul-run [read_temp]
+;           ul-blind-run [read_temp init night]
+           see-packet
+           wait_utime 20       ; wait ~20 sec
+           ]	
+end
+
+to see-packet
+   wait 10
+   make "packet-bytes rl $1fc0 30
+   if (count :packet-bytes) > 0 
+	[
+	   if (nth 0 :packet-bytes) = 16
+           [
+    
+              make "cnt 0
+              make "heat-list []
+              repeat count :real-list [ make "heat-list se :heat-list (nth :cnt :real-list) 
+                            make "cnt :cnt + 1]
+
+              pre-process-packet
+              real-process-packet
+        
+              make "cnt 0
+              make "real-list []
+              repeat count :heat-list [ make "real-list se :real-list (nth :cnt :heat-list) 
+                                        make "cnt :cnt + 1]
+              make "ncol 6
+              make "data-list :heat-list
+              save-data "heatreal-list.txt             
+              plot-temp
+              blindexec "|cp screen.png heat-real.png|
+              wait 10
+              display 0       
+             
+              make "cnt 0
+              make "heat-list []
+              repeat count :sim-list [ make "heat-list se :heat-list (nth :cnt :sim-list) 
+                                       make "cnt :cnt + 1]
+
+              pre-process-packet
+              sim-process-packet
+                
+              make "cnt 0
+              make "sim-list []
+              repeat count :heat-list [ make "sim-list se :sim-list (nth :cnt :heat-list) 
+                                        make "cnt :cnt + 1]
+
+              make "ncol 6
+              make "data-list :heat-list
+              save-data "heatsim-list.txt
+              plot-temp
+              blindexec "|cp screen.png heat-sim.png|
+              wait 10
+              display 1
+              
+           ]
+	]
+end
+
+to pre-process-packet
+  let [th 0]
+  let [tl 0]
+  make "type nth 1 :packet-bytes
+  make "wp packet-words :packet-bytes
+  print ( se word "T bf 100 + :type round now / 1000 :wp  )    
+  make "th wnth 2 :packet-bytes         ; timestamph from packet
+  make "tl wnth 3 :packet-bytes         ; timestampl from packet
+
+; grab values from packet
+  if (:type = 60) [
+    make "elapse round ((now - :start-time) / 1000) ; elapsed time (sec)
+    make "day-night wnth 4 :packet-bytes
+    make "temp0     wnth 5 :packet-bytes
+    make "temp1     wnth 6 :packet-bytes
+    make "temp2     wnth 7 :packet-bytes
+    make "temp3     wnth 8 :packet-bytes
+
+    make "heat-list se :heat-list :elapse
+
+    make "day-night 10 * :day-night + 5
+    make "heat-list se :heat-list :day-night
+
+    make "temp0 calibrate :temp0 :temp0_cal
+    make "temp1 calibrate :temp1 :temp1_cal
+    make "temp2 calibrate :temp2 :temp2_cal
+    make "temp3 calibrate :temp3 :temp3_cal
+
+    make "heat-list se :heat-list :temp0
+end
+
+to sim-process-packet
+  
+       let [n-temp :sim-temp]
+       setnth 0 :n-temp :temp0          ; surface boundary condition
+
+       if :first-time                   ; set the initial temperature profile
+       [
+         setnth 1 :n-temp :temp1
+         setnth 2 :n-temp (:temp1 + :temp2) / 2
+         setnth 3 :n-temp :temp2
+         setnth 4 :n-temp :temp2
+         setnth 5 :n-temp :temp2
+         setnth 6 :n-temp :temp3
+         setnth 7 :n-temp :temp3
+         setnth 8 :n-temp :temp3
+         setnth 9 :n-temp :temp3
+         make "first-time false
+       ]
+
+       repeat 10                        ; heat diffusion steps 
+       [
+         let [cnt 1]
+         let [delta 0]
+         repeat 8      ; loop through 10 layers of sand 
+         [
+          make "delta                :alpha  * (nth (:cnt - 1) :sim-temp)
+          make "delta :delta +       :alpha  * (nth (:cnt + 1) :sim-temp)
+          make "delta :delta - ((2 * :alpha) * (nth :cnt :sim-temp))
+          setnth :cnt :n-temp  (nth :cnt :n-temp) + :delta
+          make "cnt :cnt + 1
+         ]
+         make "sim-temp :n-temp
+       ]
+        make "heat-list se :heat-list nth 1 :sim-temp   ; depth temp1
+        make "heat-list se :heat-list nth 3 :sim-temp   ; depth temp2
+        make "heat-list se :heat-list nth 7 :sim-temp   ; depth temp3
+        make "ncol 6       ;elapse, day-night, temp0, temp1, temp2, temp3
+end
+
+
+to real-process-packet                 
+        make "heat-list se :heat-list :temp1
+        make "heat-list se :heat-list :temp2
+        make "heat-list se :heat-list :temp3
+        make "ncol 6       ;elapse, day-night, temp0, temp1, temp2, temp3
+end
+
+to calibrate :n :m
+let [adc0 nth 0 :m]
+let [adc1 nth 2 :m]
+let [val0 nth 1 :m]
+let [val1 nth 3 :m]
+let [slope (:val1 - :val0) / (:adc1 - :adc0)]
+
+; later find the correct pair - assume one point for now
+
+output  ((:n - :adc0) * :slope) + :val0
+end
+
+to plot-hist
+ltype 1      ; black white lines
+ptype 2      ; circles
+clean
+
+make "xcol-data :val-list
+make "savexupper xupper
+make "savexlower xlower
+make "binsize (:savexupper - :savexlower) / 50
+
+bin :savexlower :savexupper :binsize    ;builds bins in "xcol-data
+hist :avg-list
+limits :savexlower :savexupper 0.0 yupper  ;builds count in "ycol-data
+grid 10 10
+box
+xaxis 10 1
+yaxis 10 1
+
+blue histogram
+hist :val-list
+
+let [cnt 0]
+repeat count :ycol-data [
+     setnth :cnt :ycol-data (nth :cnt :ycol-data) / 9
+     make "cnt :cnt + 1
+     ]
+red histogram
+
+title "|Histogram of Noise|
+xlabel "|10X Temperature (deg C)|
+ylabel "Count
+
+end
+
+to plot-temp
+ltype 1      ; black white lines
+ptype 2      ; circles
+
+make "ncol 6
+make "data-list :heat-list
+xcol 1
+ycol 3
+
+limits 0 xupper 0.0 70.0
+make "last xupper
+
+clean
+grid 10 7
+box
+xaxis 10 1
+yaxis 7 1
+
+title "|Temperature (deg C) versus Time|
+xlabel "|Time (seconds)|
+ylabel "Temp
+red
+histogram
+
+make "ncol 6
+make "data-list :heat-list
+xcol 1
+ycol 4
+green
+histogram
+
+make "ncol 6
+make "data-list :heat-list
+xcol 1
+ycol 5
+cyan
+histogram
+
+make "ncol 6
+make "data-list :heat-list
+xcol 1
+ycol 6
+magenta
+histogram
+
+make "ncol 6
+make "data-list :heat-list
+xcol 1
+ycol 2
+blue 
+histogram
+rel 1.05 * :last 15 label "Day
+rel 1.05 * :last  5 label "Night
+
+    if ((count :xcol-data) > 5) [
+      make "t1 :elapse - 120
+      make "t2 :elapse
+      
+      xcol 1                 ; time
+      ycol 3                 ;surface temp
+      select-data :t1 :t2
+      ; blue
+      make "slope fit-line
+      make "slope 60 * :slope + 60
+      make "slope-list se  se  :slope-list ((:t1 + :t2) / 2)  :slope
+
+      make "data-list :slope-list
+      make "ncol 2
+      xcol 1
+      ycol 2
+      red
+      points
+      rel 0 60 draw :last 60
+      rel 1.05 * :last 65 label "Rise
+      rel 1.05 * :last 55  label "Fall
+      ]
+end
+
+to display :n 
+wait 10
+redraw
+if :n = 0 [
+           blindexec "|cp screen.png real.png|
+           wait 10
+           blindexec "|eog real.png|
+          ]
+
+ if :n = 1 [
+           blindexec "|cp screen.png sim.png|
+           wait 10
+           blindexec "|eog sim.png|
+          ]
+end
+
+
+to init-data
+make "data-list []
+setup-screen
+end
+
+to init-packet
+make "packet-bytes []
+end
+
+to packet-time :n :m
+output (10 * :n) + (:m / 1000)
+end
+
+to show-packet
+let [d :data-list]
+repeat (count :d) 
+  [ print nth 0 :d
+    make "d bf :d ]
+end
+
+to packet-words :l           ; this version leaves off the checksum
+  let [res []]
+  let [nws (first :l) / 2 + 2]
+  if ( :nws > 25 ) [ make "nws 25 ]
+  dotimes [i :nws - 1][make "res se :res bf 100000 + wnth :i :l]
+  output :res
+end
+
+to word-list :l
+  let [res []]
+  dotimes [i (wnth 0 :l) / 2][make "res se :res wnth :i + 1 :l]
+  output :res
+end
+
+to wnth :i :l
+  output (nth 2 * :i :l) + 256 * (nth 2 * :i + 1 :l)
+end
+
+
+
+   

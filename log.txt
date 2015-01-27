@@ -1,0 +1,145 @@
+Welcome to Logo!
+  Can't open file startup.logo
+Welcome to Logo!
+  Welcome to the heat
+  loading heat.logo
+  Can't open file /home/user/LbyM/HeatDiffusionExperiment/sdpacket.txt in source-string
+Welcome to Logo!
+  Welcome to the heat
+  loading heat.logo
+  Compiling...
+  1307 bytes
+Welcome to Logo!
+  Welcome to the heat
+  loading heat.logo
+  Compiling...
+  1307 bytes
+.targetNode 1
+Welcome to Logo!
+  Welcome to the heat
+  loading heat.logo
+  Compiling...
+  1307 bytes
+.targetNode 1
+  targeting node :n
+  I don't know how to n in targetNode
+Welcome to Logo!
+  Welcome to the heat
+  loading heat.logo
+  Compiling...
+  1307 bytes
+.targetNode 1
+  targeting node
+  1
+  I don't know how to n in targetNode
+Welcome to Logo!
+  Welcome to the heat
+  loading heat.logo
+  Compiling...
+  1307 bytes
+.targetNode 1
+  targeting node
+  print didn't output to make in targetNode
+.targetNode 1
+  targeting node
+  print didn't output to make in targetNode
+Welcome to Logo!
+  Welcome to the heat
+  loading heat.logo
+  Compiling...
+  1307 bytes
+.controlNode 1
+  You don't say what to do with 1 in controlNode
+.rr
+.controlNode 1
+  Can't open file start-heat.logo in rr
+  You don't say what to do with 1 in controlNode
+Welcome to Logo!
+  Welcome to the heat
+  loading heat.logo
+  Compiling...
+  1307 bytes
+.rr
+.controlNode 1
+  Welcome to the heat
+  loading heat.logo
+  Compiling...
+  1307 bytes
+.controlNode 1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Welcome to Logo!
+  Welcome to the heat
+  loading heat.logo
+  Compiling...
+  1307 bytes
