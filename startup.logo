@@ -8,6 +8,7 @@ load "logo/smplot
 load "logo/onewire-packets
 load "nodes
 load "heat
+load "calibrate
 
 make "onewire true
 sethandleline true

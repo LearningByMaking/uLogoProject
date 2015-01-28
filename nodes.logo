@@ -1,20 +1,16 @@
 to assignProjectsToNodes
 make "nodes 
 [
-	19 light.prj 
-	20 temp.prj
+	20 light.prj 
+	19 temp.prj
 ]     
 end
 
 to controlNode :n
-print :n
 talkto :n
-print projectForNode :n
 make "srcfile projectForNode :n
 compile
 end
-
-
 
 to projectForNode :n
 make "i 0

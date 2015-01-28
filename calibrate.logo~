@@ -1,0 +1,6 @@
+to calibrate
+make "temp0_cal [500 22.0 1000 50.0]     ; pairs (adc,temp)
+make "temp1_cal [500 22.0 1000 50.0]     ; pairs (adc,temp)
+make "temp2_cal [500 22.0 1000 50.0]     ; pairs (adc,temp)
+make "temp3_cal [500 22.0 1000 50.0]     ; pairs (adc,temp)
+end

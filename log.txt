@@ -441,3 +441,446 @@ print 1234
 print 1234
   Chip not found.
   Chip not found.
+Welcome to Logo!
+  Heat Diffusion Experiment
+  can't open port /dev/ttyUSB0 in open-linux-port
+Welcome to Logo!
+  Heat Diffusion Experiment
+  can't open port /dev/ttyUSB0 in open-linux-port
+
+
+
+
+
+
+
+
+
+
+
+Welcome to Logo!
+  Heat Diffusion Experiment
+  can't open port /dev/ttyUSB0 in open-linux-port
+Welcome to Logo!
+  Heat Diffusion Experiment
+.talkto 19
+print 1234
+  1234
+.talkto 20
+print 1234
+  1234
+redon
+  redon undefined
+Welcome to Logo!
+  Heat Diffusion Experiment
+.controlNode 19
+  19
+  light.prj
+  Can't open file /home/user/LbyM/HeatDiffusionExperiment/make in source-string
+.controlNode 19
+  19
+  light.prj
+  Compiling...
+  1073 bytes
+.controlNode 22
+  22
+  projectForNode didn't output to print in controlNode
+.controlNode 22
+  22
+  projectForNode didn't output to print in controlNode
+Welcome to Logo!
+  Heat Diffusion Experiment
+.init
+.heat-exp
+  Heat Experiment
+  read_temp undefined
+Welcome to Logo!
+  Heat Diffusion Experiment
+.init
+.heat-exp
+  Heat Experiment
+  I don't know how to .controlNode in heat-exp
+Welcome to Logo!
+  Heat Diffusion Experiment
+.init
+.heat-exp
+  Heat Experiment
+  19
+  light.prj
+  Compiling...
+  1073 bytes
+  20
+  temp.prj
+  Compiling...
+  1292 bytes
+.rr
+  Heat Diffusion Experiment
+.init
+.heat-exp
+  Heat Experiment
+  19
+  light.prj
+  Compiling...
+  1073 bytes
+  20
+  temp.prj
+  Compiling...
+  1292 bytes
+  20
+  temp.prj
+  Compiling...
+  1292 bytes
+  19
+  light.prj
+  Compiling...
+  1073 bytes
+  read_temp undefined
+.rr
+  Heat Diffusion Experiment
+.init
+.heat-exp
+  Heat Experiment
+  19
+  light.prj
+  Compiling...
+  1073 bytes
+  20
+  temp.prj
+  Compiling...
+  1292 bytes
+  19
+  light.prj
+  Compiling...
+  1073 bytes
+  20
+  temp.prj
+  Compiling...
+  1292 bytes
+  start-time has no value in wait_utime
+.rr
+  Heat Diffusion Experiment
+.init
+.heat-exp
+  Heat Experiment
+  19
+  light.prj
+  Compiling...
+  1073 bytes
+  20
+  temp.prj
+  Compiling...
+  1292 bytes
+  19
+  light.prj
+  Compiling...
+  1073 bytes
+  20
+  temp.prj
+  Compiling...
+  1292 bytes
+  T60 1422487738 15376 65535 00717 00668 00001 01139 01921 01948 01993
+  temp0_cal has no value in pre-process-packet
+.rr
+  Heat Diffusion Experiment
+.controlNode19
+  I don't know how to controlNode19
+.controlNode 19
+  19
+  light.prj
+  Compiling...
+  1073 bytes
+ongo
+onstop
+  onstop undefined
+onstart
+ongo
+onstart
+onstart
+init
+ongo
+onstart
+ongo
+onstart
+Welcome to Logo!
+  Heat Diffusion Experiment
+.controlNode 19
+  19
+  light.prj
+  Compiling...
+  1073 bytes
+
+   undefined
+
+Welcome to Logo!
+  Heat Diffusion Experiment
+.controlNode 19
+  19
+  light.prj
+  Compiling...
+  1073 bytes
+ongo
+onstart
+init
+ongo
+onstart
+ongo
+onstart
+.controlNode 20
+  20
+  temp.prj
+  Compiling...
+  1292 bytes
+init
+ongo
+onstart
+ongo
+onstart
+.rr
+  Heat Diffusion Experiment
+.init
+.heat-exp
+  Heat Experiment
+  I don't know how to tempNode in heat-exp
+.rr
+  Heat Diffusion Experiment
+.init
+.heat-exp
+  Heat Experiment
+  Compiling...
+  1292 bytes
+  Compiling...
+  1073 bytes
+  Compiling...
+  1073 bytes
+  Compiling...
+  1292 bytes
+.rr
+Welcome to Logo!
+  Heat Diffusion Experiment
+.rr
+  Heat Diffusion Experiment
+.init
+.heat-exp
+  Heat Experiment
+  Compiling...
+  1292 bytes
+  Compiling...
+  1073 bytes
+  Compiling...
+  1073 bytes
+  Compiling...
+  1292 bytes
+.stop
+..
+  stopped.
+.rr
+Welcome to Logo!
+  Heat Diffusion Experiment
+.init
+.heat-exp
+  Heat Experiment
+  Compiling...
+  1292 bytes
+  Compiling...
+  1073 bytes
+  Compiling...
+  1073 bytes
+  Compiling...
+  1292 bytes
+..
+  stopped.
+.controlNode 20
+  Compiling...
+  1073 bytes
+init
+onstop
+  onstop undefined
+onstart
+onstart
+ongo
+onpowerup
+onstart
+ongo
+..
+  stopped.
+Welcome to Logo!
+  Heat Diffusion Experiment
+.controlNode 20
+init
+  Compiling...
+ongo
+  1073 bytes
+init
+ongo
+onstart
+.controlNode 19
+  Compiling...
+  1292 bytes
+onstart
+init
+ongo
+onstart
+onpowerup
+ongo
+onstart
+print 1234
+Welcome to Logo!
+  Heat Diffusion Experiment
+.controlNode 20
+  Compiling...
+  1073 bytes
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Welcome to Logo!
+  Heat Diffusion Experiment
+.controlNode 20
+  Compiling...
+  1073 bytes
+init
+ongo
+Welcome to Logo!
+  Heat Diffusion Experiment
+.controlNode 20
+  Compiling...
+  1073 bytes
+init
+ongo
+onstart
+day
+night
+ongo
+onstart
+Welcome to Logo!
+  Heat Diffusion Experiment
+.controlNode 19
+  Compiling...
+  1292 bytes
+init
+ongo
+onstart
+print 1234
+  1234
+.download
+  1292 bytes
+init
+ongo
+onstart
+.controlNode 20
+  Compiling...
+  1038 bytes
+.download
+init
+  1038 bytes
+ongoinit
+  ongoinit undefined
+init
+ongo
+onstart
+.init
+.heat-exp
+  Heat Experiment
+  Compiling...
+  1292 bytes
+  Compiling...
+  1038 bytes
+  Compiling...
+  1038 bytes
+  Compiling...
+  1292 bytes
+Welcome to Logo!
+  Heat Diffusion Experiment
+.INIT
+.heat-exp
+  Heat Experiment
+  Compiling...
+  1292 bytes
+  Compiling...
+  1038 bytes
+  Compiling...
+  1038 bytes
+  Compiling...
+  1292 bytes
+  T60 1422489017 15376 65535 00015 00110 00001 01439 01780 01976 01991
+  temp0_cal has no value in pre-process-packet
+Welcome to Logo!
+  Heat Diffusion Experiment
+.init
+.heat-exp
+  Heat Experiment
+  Compiling...
+  1292 bytes
+  Compiling...
+  1038 bytes
+  Compiling...
+  1038 bytes
+  Compiling...
+  1292 bytes
+  T60 1422489085 15376 65535 00022 00024 00001 01503 01880 01964 01966
+  calibrate didn't output to make in pre-process-packet
+Welcome to Logo!
+  Heat Diffusion Experiment
+.init
+.heat-exp
+  Heat Experiment
+  Compiling...
+  1292 bytes
+  Compiling...
+  1038 bytes
+  Compiling...
+  1038 bytes
+  Compiling...
+  1292 bytes
+  T60 1422489163 15376 65535 00030 00941 00001 01479 01831 01889 02016
+  T60 1422489167 15376 65535 00030 00941 00001 01479 01831 01889 02016
+  T60 1422489180 15376 65535 00031 09349 00001 01536 01743 01911 02044
+  T60 1422489183 15376 65535 00031 09349 00001 01536 01743 01911 02044

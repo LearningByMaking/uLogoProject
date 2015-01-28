@@ -46,14 +46,6 @@ to init
   dp4off
 end
 
-to read_temp
-  init-packet 60
-  fprint isDay
-  fprint readA0
-  fprint readA1
-  fprint readA2
-  fprint readA3
-end
 
 to day
   setisDay 1

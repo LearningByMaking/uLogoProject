@@ -1,5 +1,5 @@
 to init
-init-calibrate
+calibrate
 make "slope-list []
 setup-screen
 init-data

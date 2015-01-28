@@ -61,13 +61,6 @@ to night
   blueon
 end
 
-to wdchecksum :addr :len
-let [res 0]
-repeat :len / 2 
- [ make "res :res + read :addr 
-   make "addr :addr + 2]
-output :res
-end
 
 constants [[status $202][inbuf $300][inbuf-len $301]]
 define stray-packet? [] [output (readb status) and 2]
