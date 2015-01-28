@@ -1,6 +1,16 @@
-to correlateProjectsWithNodes
-make "nodes [19 node1.prj 20 node2.prj]     
+to assignProjectsToNodes
+make "nodes [19 light.prj 20 temp.prj]     
 end
+
+to controlNode :n
+print :n
+talkto :n
+print projectForNode :n
+make "srcfile projectForNode :n
+compile
+end
+
+
 
 to projectForNode :n
 make "i 0

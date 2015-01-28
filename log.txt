@@ -349,3 +349,95 @@ Welcome to Logo!
 .assignProjectsToNodes
 .print projectForNode 19
   node1.prj
+Welcome to Logo!
+  Heat Diffusion Experiment
+.print projectForNode 20
+  node2.prj
+.rr
+  Heat Diffusion Experiment
+.controlNode 19
+  19
+  srcpath has no value in compile
+.rr
+  Heat Diffusion Experiment
+.controlNode 19
+  19
+  heat.prj
+  srcpath has no value in compile
+.rr
+  Heat Diffusion Experiment
+.controlNode 19
+  19
+  heat.prj
+  Compiling...
+  plist-names has no value in clear-plist
+.print :srcpath
+  /home/user/LbyM/HeatDiffusionExperiment/
+.print :srcfile
+  heat.prj
+.compile
+  Compiling...
+  plist-names has no value in clear-plist
+Welcome to Logo!
+  Heat Diffusion Experiment
+.make "srcfile heat.prj
+  I don't know how to heat.prj
+.make "srcfile "heat.prj
+.compile
+  Compiling...
+  plist-names has no value in clear-plist
+.rr
+  Heat Diffusion Experiment
+.compile
+  Compiling...
+  1307 bytes
+Welcome to Logo!
+  Heat Diffusion Experiment
+.rr
+  Heat Diffusion Experiment
+.controlNode 19
+  19
+  light.prj
+  Can't open file /home/user/LbyM/HeatDiffusionExperiment/heat.prj in source-string
+.rr
+  Heat Diffusion Experiment
+.controlNode 19
+  19
+  light.prj
+  Compiling...
+  1307 bytes
+.controNode 20
+  I don't know how to controNode
+.controlNode 20
+  20
+  temp.prj
+  Compiling...
+  1307 bytes
+.rr
+  Heat Diffusion Experiment
+.assignProjectsToNodes
+.controlNode 19
+Welcome to Logo!
+  Heat Diffusion Experiment
+.controlNode 19
+  19
+  light.prj
+  Compiling...
+  1307 bytes
+Welcome to Logo!
+  Heat Diffusion Experiment
+.talkto 19
+print 1234
+  Chip not found.
+Welcome to Logo!
+  Heat Diffusion Experiment
+.talkto 19
+print 1234
+  Chip not found.
+.tal.talkto 20
+print 1234
+  I don't know how to tal.talkto
+.talkto 20
+print 1234
+  Chip not found.
+  Chip not found.

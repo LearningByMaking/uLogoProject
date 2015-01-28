@@ -12,10 +12,12 @@ load "heat
 make "onewire true
 sethandleline true
 
+assignProjectsToNodes
+
 if not name? "inited [make "inited true compiler-startup start-comms]
 make "srcpath word dirnamefrompath first files ". "/
-make "srcfile "heat.prj
-compile
+;make "srcfile "heat.prj
+;compile
 end
 
 define byte0 [n][output logand :n $ff]
