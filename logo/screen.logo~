@@ -210,7 +210,7 @@ to red
  %setcolor $FF0000
 end
 
-to green
+to greensetu
  %setcolor $00FF00
 end
 
