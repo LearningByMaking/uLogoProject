@@ -22,21 +22,19 @@ global [freqdev freq75 freq76 freq77]
 global [isDay]
 
 to onpowerup
-init
+; nothing to do
 end
 
 to ongo
-  setisDay 1
-  dp4on
-  redon
-  blueoff
+ init
+ redoff
+ blueoff
+ greenoff mwait 500
+ greenon mwait 1000 greenoff
 end
 
 to onstart
-  setisDay 0
-  dp4off
-  redoff
-  blueon    
+ loop [ read_temp mwait 30000]
 end
 
 to init
@@ -46,6 +44,13 @@ to init
   dp4off
 end
 
+to read_temp
+  greenon
+  init-packet 61
+  fprint isDay
+  fprint readA0
+  mwait 1000 greenoff
+end
 
 to day
   setisDay 1
@@ -61,6 +66,13 @@ to night
   blueon
 end
 
+to wdchecksum :addr :len
+let [res 0]
+repeat :len / 2 
+ [ make "res :res + read :addr 
+   make "addr :addr + 2]
+output :res
+end
 
 constants [[status $202][inbuf $300][inbuf-len $301]]
 define stray-packet? [] [output (readb status) and 2]

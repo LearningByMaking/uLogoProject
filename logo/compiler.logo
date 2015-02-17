@@ -15,14 +15,26 @@ ul-waitfor-idle
 end
 
 to ul-blind-run :line
-let [code compile-line  :line]
-;print :code
+let [code compile-line :line]
+; print :code
 ;stop
-if not chip-check [print "|Chip not found.| stop]
-stopvm
-erase-seg :command-center
-wfl :command-center :code
-runvm :command-center
+
+ifelse (:who = ($80 + 16))            ; special case for uStar
+[ 
+   let [cnt count :code]
+   ifelse ( :cnt < 40 )
+           [ setnth (:cnt - 1) :code 4                     ; change last word from 0 to 4
+             wl :command-center :code     ;stopvm and runvm not needed
+             wait 10]
+           [ print "|Error: Code does not fit in RFM22B packet| ] 
+]
+[
+   if not chip-check [print "|Chip not found.| stop]
+   stopvm
+   wl :command-center :code
+   runvm :command-center
+]
+
 end
 
 to compile
@@ -60,9 +72,7 @@ print se count :procs "bytes
 end
 
 to ul-running?
-let [s rl :status-byte 1]
-if empty? :s [make "badcount :badcount + 1 output true]
-output (logand :s 1) = 1
+output (logand ul-status 1) = 1
 end
 
 to ul-waitfor-idle
@@ -499,12 +509,13 @@ end
 ;
 ; etc
 ;
+
 to compiler-startup
 make "monstr "
-startticker 250   ; fast heart beat
-; startticker 1000    ; slow heart beat (needed for stray packets to work)
+; startticker 250
+startticker 1000
 make "plist-names []
-make "command-center $d000
+make "command-center $380
 make "proc-start $d200
 make "status-byte $202
 setup
@@ -518,5 +529,4 @@ setup-specials [( ) waituntil make let]
 put "|(| "outputs? true put "|)| "outputs? false
 put "make "outputs? false put "let "outputs? false
 setup-globals [n m]
-make "badcount 0
 end

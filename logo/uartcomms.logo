@@ -1,6 +1,10 @@
-define onstart [][runvm $1048]
-define ongo [][runvm $1050]
+define onstart   [][runvm $1048]
+define ongo      [][runvm $1050]
+define onpowerup [][runvm $1040]
 
+define ul-go    [][runvm $1048]
+define ul-set   [][runvm $1050]
+define ul-ready [][runvm $1040]
 
 to ticktask
 if not :heartbeat [stop]
@@ -22,22 +26,33 @@ to chip-check
 clearcom
 send-packet (se $aa 5 :who $80 $ff)
 let [res get-packet]
+mwait 10
 if not (count :res) = 5 [output false]
 output (last :res) = 37
 end
 
 to rl :addr :len
 send-packet (se $aa 8 :who $80 $fe byte0 :addr byte1 :addr :len)
+wait 30
 let [result get-packet]
 if (count :result) < 5 [output []]
-output bf bf bf bf :result
+let [tmpa bf bf bf bf :result]       ;strip off one-wire header
+let [tmpb []]
+if :who = ($80 + 16)             ; special case for uStar
+       [ repeat :len [ 
+                       make "tmpb se :tmpb (nth 0 :tmpa)
+                       make "tmpa bf :tmpa
+                     ]
+         output :tmpb
+       ]
+output :tmpa
 end
 
 to wl :addr :l
 let [len (count :l) + 7]
 send-packet (se $aa :len :who $80 $fd byte0 :addr byte1 :addr :l)
-ignore get-packet
-; print get-packet
+if empty? get-packet [print [wl error]]
+mwait 10
 end
 
 to wfl :addr :data
@@ -52,25 +67,23 @@ to wfl1 :addr :l
 let [len (count :l) + 7]
 send-packet (se $aa :len :who $80 $fc byte0 :addr byte1 :addr :l)
 ignore get-packet
-; print get-packet
 end
 
 to erase-seg :addr
 send-packet (se $aa 7 :who $80 $fb byte0 :addr byte1 :addr)
 ignore get-packet
-; print get-packet
 end
 
 to runvm :addr
 send-packet (se $aa 7 :who $80 $fa byte0 :addr byte1 :addr)
-ignore get-packet
-; print get-packet
+if empty? get-packet [print [runvm error]]
+mwait 10
 end
 
 to stopvm
 send-packet (se $aa 5 :who $80 $f8)
-ignore get-packet
-; print get-packet
+if empty? get-packet [print [stopvm error]]
+mwait 10
 end
 
 to printstream
@@ -96,14 +109,6 @@ to bf32 :l
 if (count :l) < 32 [output []]
 repeat 32 [make "l bf :l]
 output :l
-end
-
-to packet-monitor
-let [l []]
-loop
- [make "l get-packet
-  if not empty? :l [print hexl :l]
-  wait 3]
 end
 
 
@@ -194,6 +199,18 @@ to ioctrl :dtr :rts
 ignore exec (word "|./ioctl | :port "| | :dtr "| | :rts "| 0|)
 end
 
+to mwait :n
+let [end timer + :n]
+loop [if timer > :end [stop]]
+end
+
+to packet-monitor
+let [l []]
+loop
+ [make "l get-packet
+  if not empty? :l [print hexl :l]
+  wait 3]
+end
 
 define recv[][output .recc]
 define talkto [n][make "who :n]
