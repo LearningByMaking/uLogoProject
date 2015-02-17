@@ -34,7 +34,12 @@ to ongo
 end
 
 to onstart
- loop [ read_temp mwait 30000]
+ loop [ 
+        day
+	repeat 10 [read_light mwait 10000]
+	night
+	repeat 10 [read_light mwait 10000]
+      ]
 end
 
 to init
@@ -44,7 +49,7 @@ to init
   dp4off
 end
 
-to read_temp
+to read_light
   greenon
   init-packet 61
   fprint isDay

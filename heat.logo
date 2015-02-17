@@ -1,141 +1,134 @@
-to init
-;make a calibration table with 2 points for temperaure sensor
-;later extend table to multiple points for non-linear sensor
-; make "temp0_cal [911 22.0 3000 50.0]     ; pairs (adc,temp)
-make "temp0_cal [500 22.0 1000 50.0]     ; pairs (adc,temp)
-make "temp1_cal [500 22.0 1000 50.0]     ; pairs (adc,temp)
-make "temp2_cal [500 22.0 1000 50.0]     ; pairs (adc,temp)
-make "temp3_cal [500 22.0 1000 50.0]     ; pairs (adc,temp)
-
-; make "temp0_cal [911 22.0 1500 50.0]     ; pairs (adc,temp)
-; make "temp1_cal [911 22.0 1500 50.0]     ; pairs (adc,temp)
-; make "temp2_cal [911 22.0 1500 50.0]     ; pairs (adc,temp)
-; make "temp3_cal [911 22.0 1500 50.0]     ; pairs (adc,temp)
-
-make "temp1_cal :temp0_cal
-make "temp2_cal :temp0_cal
-make "temp3_cal :temp0_cal
-
-;make "temp0_cal [0 -50.0 2110 125.0]     ; pairs (adc,temp)
-;make "temp1_cal [0 -50.0 2110 125.0]     ; pairs (adc,temp)
-;make "temp2_cal [0 -50.0 2110 125.0]     ; pairs (adc,temp)
-;make "temp3_cal [0 -50.0 2110 125.0]     ; pairs (adc,temp)
-
-make "slope-list []
-setup-screen
-init-data
-
-make "simulate false
-make "sim-temp [20 20 20 20 20 20 20 20 20 20] 
-make "alpha 0.03         ; adjust constant to match simulation to real data
-make "first-time true
-
-talkto 19
-; onpowerup
-wait 10
-ongo
-
-
-talkto 20
-; onpowerup
-wait 10
-ongo
-
-talkto 19
-wait 10
-onstart
-
-talkto 20
-wait 10
-onstart
-
-end
-
-to test-app :n
-  talkto :n
-  onpowerup
-  ongo
-  onstart
-end
-  
 to heat-exp
+  print "|starting heat experiment|
   init
-  make "heat-list []
-  make "real-list []
-  make "start-time now       ; gets the unit time at the begining of the experiment
-  loop [
-        talkto 19 
-	see-packet
+  loop [        
+	talkto 19
+        see-packet     
         talkto 20
-        see-packet 
-        wait 150 
+        see-packet
+        wait 200 
        ]
 end
 
-to see-packet 
+to init
+  init-data
+  set-calibration
+  start-hardware
+end
+
+to init-data
+  setup-screen
+  make "slope-list []
+  make "data-list []  
+  make "alpha 0.03         ; adjust constant to match simulation to real data
+  make "first-time true
+  make "heat-list []
+  make "real-list []
+  make "start-time now       ; gets the unit time at the begining of the experiment
+end
+
+to set-calibration
+  make "temp0_cal [500 22.0 1000 50.0]     ; pairs (adc,temp)
+  make "temp1_cal [500 22.0 1000 50.0]     ; pairs (adc,temp)
+  make "temp2_cal [500 22.0 1000 50.0]     ; pairs (adc,temp)
+  make "temp3_cal [500 22.0 1000 50.0]     ; pairs (adc,temp)
+end
+
+to start-hardware
+  talkto 19
+  wait 5
+  ongo
+  talkto 20
+  wait 5
+  ongo
+  talkto 19
+  wait 5
+  onstart
+  talkto 20
+  wait 5
+  onstart
+end
+  
+
+to see-packet
    make "packet-bytes rl $1fc0 30   ; add checksum and ignore if not new
 
    if (count :packet-bytes) > 0 
 	[
-	   ;if (nth 0 :packet-bytes) = 16
-           ;[
              process-packet
-
-             make "ncol 6
-             make "data-list :heat-list
-             save-data "heatreal-list.txt             
-           ;]    
+             ;make "ncol 6
+             ;make "data-list :heat-list
+             ;save-data "heatreal-list.txt 
 	]
     
 end
 
-to process-packet
-  let [th 0]
-  let [tl 0]
-  make "type nth 1 :packet-bytes
+
+to process-packet  
+  make "type nth 1 :packet-bytes 
+  print-packet  
+  if (:type = 60)
+  [
+    process-heat-packet
+  ]
+  if (:type = 61)
+  [
+    process-light-packet
+  ]
+  
+end
+
+to print-packet
   make "wp packet-words :packet-bytes
-  print ( se word "T bf 100 + :type round now / 1000 :wp  )    
+  print ( se word "T bf 100 + :type round now / 1000 :wp  ) 
+end
+
+to process-heat-packet
+  print "|HEAT PACKET|
+  
   make "th wnth 2 :packet-bytes         ; timestamph from packet
   make "tl wnth 3 :packet-bytes         ; timestampl from packet
 
-; grab values from packet
-  ;if (:type = 60) [
-    make "elapse round ((now - :start-time) / 1000) ; elapsed time (sec)
-    make "day-night wnth 4 :packet-bytes
-    make "temp0     wnth 5 :packet-bytes
-    make "temp1     wnth 6 :packet-bytes
-    make "temp2     wnth 7 :packet-bytes
-    make "temp3     wnth 8 :packet-bytes
+  make "elapse round ((now - :start-time) / 1000) ; elapsed time (sec)
+  make "day-night wnth 4 :packet-bytes
+  make "temp0     wnth 5 :packet-bytes
+  make "temp1     wnth 6 :packet-bytes
+  make "temp2     wnth 7 :packet-bytes
+  make "temp3     wnth 8 :packet-bytes
 
-    make "heat-list se :heat-list :elapse
+  make "heat-list se :heat-list :elapse
 
-    make "day-night 10 * :day-night + 5
-    make "heat-list se :heat-list :day-night
+  make "day-night 10 * :day-night + 5
+  make "heat-list se :heat-list :day-night
 
-    make "temp0 calibrate :temp0 :temp0_cal
-    make "temp1 calibrate :temp1 :temp1_cal
-    make "temp2 calibrate :temp2 :temp2_cal
-    make "temp3 calibrate :temp3 :temp3_cal
+  make "temp0 calibrate :temp0 :temp0_cal
+  make "temp1 calibrate :temp1 :temp1_cal
+  make "temp2 calibrate :temp2 :temp2_cal
+  make "temp3 calibrate :temp3 :temp3_cal
 
-    make "heat-list se :heat-list :temp0
-    make "heat-list se :heat-list :temp1
-    make "heat-list se :heat-list :temp2
-    make "heat-list se :heat-list :temp3
-    make "ncol 6       ;elapse, day-night, temp0, temp1, temp2, temp3
+  make "heat-list se :heat-list :temp0
+  make "heat-list se :heat-list :temp1
+  make "heat-list se :heat-list :temp2
+  make "heat-list se :heat-list :temp3
+  make "ncol 6       ;elapse, day-night, temp0, temp1, temp2, temp3 
+  plot-hist
 end
-
 
 to calibrate :n :m
-let [adc0 nth 0 :m]
-let [adc1 nth 2 :m]
-let [val0 nth 1 :m]
-let [val1 nth 3 :m]
-let [slope (:val1 - :val0) / (:adc1 - :adc0)]
-
-; later find the correct pair - assume one point for now
-
-output  ((:n - :adc0) * :slope) + :val0
+  let [adc0 nth 0 :m]
+  let [adc1 nth 2 :m]
+  let [val0 nth 1 :m]
+  let [val1 nth 3 :m]
+  let [slope (:val1 - :val0) / (:adc1 - :adc0)] ;later find the correct pair - assume one point for now
+  output  ((:n - :adc0) * :slope) + :val0
 end
+
+to process-light-packet
+ print "|LIGHT PACKET|
+end
+
+
+
 
 to plot-hist
 ltype 1      ; black white lines
@@ -251,10 +244,6 @@ rel 1.05 * :last  5 label "Night
 end
 
 
-to init-data
-make "data-list []
-setup-screen
-end
 
 to init-packet
 make "packet-bytes []
