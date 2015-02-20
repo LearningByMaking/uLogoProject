@@ -8,7 +8,7 @@ to jProject :n
   make "machine 1
 end
 
-to uProject :n
+to project :n
   make "project-name :n
   let [sdate bl exec "date]
   print (se "|Start Project: | :n "|   | :sdate "|  unix time: | now ) 
@@ -40,7 +40,7 @@ end
 to uLogo
   make "run-ulogo true
   sethandleline true   ; dot needed for jLogo words - with ulogo code
-  print (se "|Welcome to the | :project-name)
+  print (se "|Opening Project | :project-name)
   load "logo/compiler
   load "logo/decompiler
   load "logo/uartcomms
